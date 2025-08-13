@@ -3,4 +3,5 @@ PyPDF2
 sentence-transformers
 faiss-cpu
 werkzeug
+pip install google-genai
 
