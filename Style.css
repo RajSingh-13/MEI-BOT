@@ -1,0 +1,187 @@
+/* ===== General Page Styles ===== */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background: #f5f6f8;
+}
+
+/* ===== Layout Grid ===== */
+.layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    background: #fff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.logo-bar img {
+    display: block;
+}
+
+.upload-section, .suggested {
+    margin-bottom: 25px;
+}
+
+.upload-section h3, .suggested h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+/* PDF upload */
+#pdf-file {
+    width: 100%;
+    margin-bottom: 8px;
+}
+#upload-btn {
+    width: 100%;
+    background: #c8102e;
+    color: #fff;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+#upload-btn:hover {
+    background: #a30f24;
+}
+
+/* Suggested / Feedback buttons */
+.suggest-btn {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    background: #fdfdfd;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.suggest-btn:hover {
+    background: #f2f2f2;
+}
+
+/* ===== Chat Area ===== */
+.chat-area {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    height: 100vh;
+}
+
+.chat-header {
+    padding: 15px;
+    font-size: 18px;
+    background: #c8102e;
+    color: white;
+}
+
+/* Scrollable chat messages */
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #fafafa;
+    scroll-behavior: smooth;
+}
+
+/* ===== Messages ===== */
+.message {
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    line-height: 1.4;
+    max-width: 80%;
+    clear: both;
+}
+
+/* User message bubble */
+.user {
+    background: #e8f3ff;
+    border: 1px solid #bee0ff;
+    align-self: flex-end;
+}
+
+/* Bot message bubble */
+.bot {
+    background: #f1f1f1;
+    border: 1px solid #ddd;
+    align-self: flex-start;
+}
+
+/* ===== Input Field ===== */
+.chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background: white;
+}
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+.chat-input button {
+    background: #c8102e;
+    border: none;
+    color: white;
+    padding: 0 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.chat-input button:hover {
+    background: #a30f24;
+}
+
+/* ===== Typing indicator ===== */
+.typing-indicator {
+    font-size: 12px;
+    color: #666;
+    padding: 0 20px 5px;
+}
+.typing-indicator span {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #999;
+    border-radius: 50%;
+    margin-right: 2px;
+    animation: blink 1.4s infinite both;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s }
+@keyframes blink {
+    0%, 80%, 100% { opacity: 0; }
+    40% { opacity: 1; }
+}
+
+/* ===== Responsive adjustments ===== */
+@media screen and (max-width: 768px) {
+    .layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+    .sidebar {
+        flex-direction: column;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        height: auto;
+        overflow-y: visible;
+    }
+    .chat-area {
+        height: calc(100vh - 200px);
+    }
+}
