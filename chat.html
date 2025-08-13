@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mitsubishi Support Assistant</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=5">
+<style>
+  /* Layout adjustments */
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .sidebar {
+    background: #fff;
+    border-right: 1px solid #ddd;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  .chat-area {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #fff;
+  }
+  .chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #fafafa;
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-bar" style="display: flex; align-items: center; gap: 10px; margin-bottom: 30px;">
+            <img 
+              src="data:image/jpeg;base64,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"
+              alt="Mitsubishi Logo" style="width:60px; height:auto;"
+            />
+            <h1 style="font-size: 16px; color: #c8102e; margin: 0;">Support Assistant</h1>
+        </div>
+
+        <div class="upload-section">
+            <h3>Upload Manual</h3>
+            <input type="file" id="pdf-file" accept="application/pdf">
+            <button id="upload-btn">Upload</button>
+        </div>
+
+        <div class="suggested">
+            <h3>Suggested Queries</h3>
+        </div>
+    </div>
+
+    <!-- Main Chat -->
+    <div class="chat-area">
+        <div class="chat-header">Mitsubishi Electric India Technical Support</div>
+
+        <div class="chat-messages" id="chat-messages"></div>
+
+        <div id="typing-indicator" class="typing-indicator" style="display:none;">
+            <span></span><span></span><span></span> Bot is typing...
+        </div>
+
+        <div class="chat-input">
+            <input id="user-input" type="text" placeholder="Type your question and press Enter...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const messagesContainer = document.getElementById('chat-messages');
+const userInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+const typingIndicator = document.getElementById('typing-indicator');
+const suggestionContainer = document.querySelector('.suggested');
+
+function appendMessage(content, sender) {
+    const msg = document.createElement('div');
+    msg.classList.add('message', sender);
+    msg.innerHTML = content;
+    messagesContainer.appendChild(msg);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function renderSuggestions(suggestions) {
+    suggestionContainer.innerHTML = '<h3>Suggested Queries</h3>';
+    suggestions.forEach(sugg => {
+        let btn = document.createElement('button');
+        btn.classList.add('suggest-btn');
+        btn.textContent = sugg;
+        btn.onclick = () => { userInput.value = sugg; sendMessage(); };
+        suggestionContainer.appendChild(btn);
+    });
+}
+
+function renderFeedbackButtons() {
+    suggestionContainer.innerHTML = '<h3>Your Feedback</h3>';
+    ['Yes', 'No'].forEach(answer => {
+        let btn = document.createElement('button');
+        btn.classList.add('suggest-btn');
+        btn.textContent = answer;
+        btn.onclick = () => { appendMessage("<strong>You:</strong> " + answer, 'user'); 
+                              suggestionContainer.innerHTML = ''; 
+                              sendFeedback(answer); };
+        suggestionContainer.appendChild(btn);
+    });
+}
+
+function maybeRenderFeedbackButtons(lastReply) {
+    if (lastReply.toLowerCase().includes("did this solve your problem")) {
+        renderFeedbackButtons();
+    }
+}
+
+function sendFeedback(response) {
+    typingIndicator.style.display = 'block';
+    fetch('/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message: response})
+    })
+    .then(res => res.json())
+    .then(data => {
+        typingIndicator.style.display = 'none';
+        appendMessage("<strong>Bot:</strong> " + data.reply, 'bot');
+        if (data.suggestions) renderSuggestions(data.suggestions);
+        maybeRenderFeedbackButtons(data.reply);
+    });
+}
+
+function sendMessage() {
+    const text = userInput.value.trim();
+    if (!text) return;
+    appendMessage("<strong>You:</strong> " + text, 'user');
+    userInput.value = '';
+    typingIndicator.style.display = 'block';
+
+    fetch('/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message: text})
+    })
+    .then(res => res.json())
+    .then(data => {
+        typingIndicator.style.display = 'none';
+        appendMessage("<strong>Bot:</strong> " + data.reply, 'bot');
+        if (data.suggestions) renderSuggestions(data.suggestions);
+        maybeRenderFeedbackButtons(data.reply);
+    });
+}
+
+sendBtn.addEventListener('click', sendMessage);
+userInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+document.getElementById('upload-btn').addEventListener('click', () => {
+    const fileInput = document.getElementById('pdf-file');
+    if (fileInput.files.length === 0) {
+        alert('Please select a PDF file first.');
+        return;
+    }
+    const formData = new FormData();
+    formData.append('pdf', fileInput.files[0]);
+
+    fetch('/upload_pdf', { method: 'POST', body: formData })
+    .then(res => res.json())
+    .then(data => { alert(data.message); });
+});
+</script>
+</body>
+</html>
