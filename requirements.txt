@@ -2,6 +2,6 @@ Flask
 PyPDF2
 sentence-transformers
 faiss-cpu
-werkzeug
+gunicorn
 google-genai
 
